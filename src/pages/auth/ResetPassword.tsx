@@ -1,31 +1,53 @@
-
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import PasswordField from "@/components/auth/PasswordField";
+import { ApiError, api } from "@/lib/api";
 
 export default function ResetPassword() {
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const token = searchParams.get("token") ?? "";
+  const email = searchParams.get("email") ?? "";
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const linkInvalid = !token || !email;
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (submitting) return;
 
     if (password !== confirmPassword) {
       setError("Passwords do not match. Please try again.");
       return;
     }
 
+    setSubmitting(true);
     setError("");
 
-    // We will connect this to the BALIGYA reset password API later.
-    console.log({ password });
-
-    // Send the user back to sign in once the password is updated.
-    navigate("/auth/login");
+    try {
+      await api.auth.resetPassword({
+        token,
+        email,
+        password,
+        password_confirmation: confirmPassword,
+      });
+      setDone(true);
+    } catch (err) {
+      setError(
+        err instanceof ApiError
+          ? err.fieldError("email") ?? err.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -46,54 +68,85 @@ export default function ResetPassword() {
         {/* Reset Password Card */}
         <section className="mt-8 rounded-[10px] border border-[#E8ECE7] bg-white px-7 py-8 shadow-[0_8px_22px_rgba(0,0,0,0.07)] sm:px-10">
 
-          <form onSubmit={handleSubmit}>
+          {linkInvalid ? (
+            <div>
+              <p role="alert" className="text-[14px] leading-relaxed text-[#B42318]">
+                This reset link is invalid or incomplete. Please request a new
+                one.
+              </p>
 
-            {/* New Password */}
-            <PasswordField
-              id="newPassword"
-              name="newPassword"
-              label="New Password"
-              value={password}
-              onChange={(value) => {
-                setPassword(value);
-                setError("");
-              }}
-              placeholder="Enter new password"
-              autoComplete="new-password"
-              minLength={8}
-            />
+              <Link
+                to="/auth/forgot-password"
+                className="mt-6 flex h-11 w-full items-center justify-center rounded-lg bg-black text-[14px] font-medium text-white transition hover:bg-[#292929] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2 active:scale-[0.99]"
+              >
+                Request a new link
+              </Link>
+            </div>
+          ) : done ? (
+            <div>
+              <p className="text-[14px] leading-relaxed text-black">
+                Your password has been reset successfully. You can now sign in
+                with your new password.
+              </p>
 
-            {/* Confirm New Password */}
-            <div className="mt-5">
+              <Link
+                to="/auth/login"
+                className="mt-6 flex h-11 w-full items-center justify-center rounded-lg bg-black text-[14px] font-medium text-white transition hover:bg-[#292929] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2 active:scale-[0.99]"
+              >
+                Back to sign in
+              </Link>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+
+              {/* New Password */}
               <PasswordField
-                id="confirmPassword"
-                name="confirmPassword"
-                label="Confirm New Password"
-                value={confirmPassword}
+                id="newPassword"
+                name="newPassword"
+                label="New Password"
+                value={password}
                 onChange={(value) => {
-                  setConfirmPassword(value);
+                  setPassword(value);
                   setError("");
                 }}
-                placeholder="Confirm new password"
+                placeholder="Enter new password"
                 autoComplete="new-password"
                 minLength={8}
               />
-            </div>
 
-            {error ? (
-              <p role="alert" className="mt-3 text-[13px] text-[#B42318]">
-                {error}
-              </p>
-            ) : null}
+              {/* Confirm New Password */}
+              <div className="mt-5">
+                <PasswordField
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirm New Password"
+                  value={confirmPassword}
+                  onChange={(value) => {
+                    setConfirmPassword(value);
+                    setError("");
+                  }}
+                  placeholder="Confirm new password"
+                  autoComplete="new-password"
+                  minLength={8}
+                />
+              </div>
 
-            {/* Reset Password Button */}
-            <button
-              type="submit"
-              className="mt-5 h-11 w-full rounded-lg bg-black text-[14px] font-medium text-white transition hover:bg-[#292929] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2 active:scale-[0.99]"
-            >
-              Reset Password
-            </button>
-          </form>
+              {error ? (
+                <p role="alert" className="mt-3 text-[13px] text-[#B42318]">
+                  {error}
+                </p>
+              ) : null}
+
+              {/* Reset Password Button */}
+              <button
+                type="submit"
+                disabled={submitting}
+                className="mt-5 h-11 w-full rounded-lg bg-black text-[14px] font-medium text-white transition hover:bg-[#292929] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {submitting ? "Resetting..." : "Reset Password"}
+              </button>
+            </form>
+          )}
         </section>
 
         {/* Back to Sign In */}

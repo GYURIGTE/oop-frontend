@@ -112,6 +112,17 @@ export type LoginInput = {
   device_name?: string;
 };
 
+export type ForgotPasswordInput = {
+  email: string;
+};
+
+export type ResetPasswordInput = {
+  token: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+};
+
 export type ListingInput = {
   name: string;
   category: string;

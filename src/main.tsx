@@ -45,9 +45,14 @@ createRoot(document.getElementById("root")!).render(
                 <Route path="login" element={<SignIn />} />
                 <Route path="signup" element={<SignUp />} />
                 <Route path="forgot-password" element={<ForgotPassword />} />
-                <Route path="reset-password" element={<ResetPassword />} />
               </Route>
             </Route>
+
+            {/* Password reset must work even when a session is still active. */}
+            <Route
+              path="/auth/reset-password"
+              element={<ResetPassword />}
+            />
 
             {/* Seller Workspace */}
             <Route path="/seller" element={<RequireAuth />}>

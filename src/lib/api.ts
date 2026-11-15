@@ -5,12 +5,14 @@ import type {
   ApiMessage,
   ApiUser,
   AuthPayload,
+  ForgotPasswordInput,
   ListingInput,
   LoginInput,
   MeetupInput,
   Paginated,
   ProfileInput,
   RegisterInput,
+  ResetPasswordInput,
 } from "@/lib/types";
 
 export const API_BASE = (
@@ -187,6 +189,18 @@ export const api = {
     me: () => requestData<ApiUser>("/auth/me"),
 
     logout: () => request<{ message: string }>("/auth/logout", { method: "POST" }),
+
+    forgotPassword: (input: ForgotPasswordInput) =>
+      request<{ message: string }>("/auth/forgot-password", {
+        method: "POST",
+        body: input,
+      }),
+
+    resetPassword: (input: ResetPasswordInput) =>
+      request<{ message: string }>("/auth/reset-password", {
+        method: "POST",
+        body: input,
+      }),
   },
 
   market: {
