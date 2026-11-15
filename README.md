@@ -46,18 +46,17 @@ Open <http://localhost:5173>.
 
 ### Demo account
 
-The backend seeder creates demo users. Every seeded account uses the password
-`password`.
+The backend seeder creates one account that owns every demo listing. It uses
+the password `password`.
 
-| Email                  | Username             |
-| ---------------------- | -------------------- |
-| `celestine@gmail.com`  | `celestinedegamo`    |
-| `joniver@gmail.com`    | `joniverpogoy`       |
-| `christian@gmail.com`  | `christiansumalinog` |
-| `charles@gmail.com`    | `charlesdinoy`       |
-| `joniverd@gmail.com`   | `joniverdinoy`       |
+| Email | Username |
+| ------------------------------- | ---------------- |
+| `chrislawrencedegamo182@gmail.com` | `chrislawrence` |
 
 Sign in with either the email **or** the username.
+
+To demo chatting and meet-ups, register a second account on the site and start
+a conversation with the owner account.
 
 ---
 
