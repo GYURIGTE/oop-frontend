@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #e7eee2;
+  color: #000000;
+}
+
+/* Chrome paints autofilled fields light blue and ignores autoComplete="off".
+   The auth forms block autofill via a read-only guard; this keeps any residual
+   autofill visually consistent with the rest of the inputs. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #000000 !important;
+  caret-color: #000000;
+  transition: background-color 9999s ease-in-out 0s;
+}
