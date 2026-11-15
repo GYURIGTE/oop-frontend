@@ -445,8 +445,16 @@ export default function BrowseMarket() {
 
               {/* Seller */}
               <div className="mt-4 flex items-center gap-2.5 border-t border-[#F0F2EE] pt-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E9F0E4] text-[13px] font-semibold text-black">
-                  {selectedProduct.seller.initials}
+                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-[#E9F0E4] text-[13px] font-semibold text-black">
+                  {selectedProduct.seller.avatarUrl ? (
+                    <img
+                      src={selectedProduct.seller.avatarUrl}
+                      alt={selectedProduct.seller.name}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    selectedProduct.seller.initials
+                  )}
                 </div>
 
                 <div>

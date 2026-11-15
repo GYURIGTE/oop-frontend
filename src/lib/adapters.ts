@@ -129,6 +129,7 @@ export function toMarketProduct(listing: ApiListing): MarketProduct {
       name: seller?.fullName ?? "BALIGYA seller",
       initials: seller?.initials ?? "BS",
       location: seller?.location ?? listing.location ?? "Cebu",
+      avatarUrl: seller?.avatarUrl ?? null,
     },
     sellerId: seller?.id,
     description: listing.description ?? "No description has been added yet.",

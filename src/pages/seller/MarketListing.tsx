@@ -210,8 +210,16 @@ export default function MarketListing() {
             </h2>
 
             <div className="mt-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E9F0E4] text-[13px] font-semibold text-black">
-                {product.seller.initials}
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#E9F0E4] text-[13px] font-semibold text-black">
+                {product.seller.avatarUrl ? (
+                  <img
+                    src={product.seller.avatarUrl}
+                    alt={product.seller.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  product.seller.initials
+                )}
               </div>
 
               <div>

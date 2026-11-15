@@ -38,6 +38,7 @@ export type MarketProduct = {
     name: string;
     initials: string;
     location: string;
+    avatarUrl?: string | null;
   };
   sellerId?: number;
   description: string;
