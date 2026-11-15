@@ -2,7 +2,7 @@ import { Store } from "lucide-react";
 
 type BaligyaLogoProps = {
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
 };
 
 const sizes = {
@@ -17,6 +17,11 @@ const sizes = {
     text: "text-[14px]",
   },
   lg: {
+    box: "h-9 w-9 rounded-lg",
+    icon: 18,
+    text: "text-[18px]",
+  },
+  xl: {
     box: "h-11 w-11 rounded-lg",
     icon: 22,
     text: "text-[24px]",
