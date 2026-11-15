@@ -50,7 +50,7 @@ export default function SignIn() {
       <section className="relative hidden min-h-screen flex-col bg-[#F4F7F1] px-8 py-8 sm:px-12 lg:flex lg:px-16">
 
         {/* BALIGYA BRAND */}
-        <BaligyaLogo />
+        <BaligyaLogo size="lg" />
 
         {/* INTRODUCTION */}
         <div className="mx-auto mt-20 w-full max-w-[610px] lg:mt-[130px]">
